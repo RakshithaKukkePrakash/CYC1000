@@ -1,0 +1,19 @@
+-- This mini project is to create a breathing effect on an LED using CYC1000 FPGA
+-- Required: Tick generator, Triangle counter, PWM
+
+entity led_breathe is 
+port(
+);
+end entity led_breathe;
+
+
+architecture behav of led_breathe is (
+
+begin
+
+
+
+
+
+
+)end architecture behav;
