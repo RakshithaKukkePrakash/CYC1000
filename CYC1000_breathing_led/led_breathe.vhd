@@ -10,6 +10,10 @@
 -- 3. PWM Generator: Runs a fast counter on the 12MHz clock and compares it against
 --    the triangle counter value. LED is ON when counter < brightness, OFF otherwise.
 --    This controls the perceived brightness of the LED. 
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 
 entity led_breathe is 
 port(
@@ -23,14 +27,13 @@ architecture behav of led_breathe is
 
 signal tick_en			: std_logic	:='0';
 signal direction_flag: std_logic :='0'; -- 0 for triag up ramp and 1 for triag down ramp
-signal triag_counter	: integer 	:= 0;
+signal pwm_counter	: unsigned(7 downto 0);
 signal tick_count 	: integer 	:= 0;  
 signal triag_step		: integer	:= 0; 
 -- to be visible to the naked eye, considering the triangle wave from 0 to 255 and back to 0 is 2s
 -- 2s/512 = 3,9ms. The clk used is 12MHz ie 83,33ns per cycle
 -- So tick limit should be 3,9ms/83,33ns = 46,801.87 and rounded to 47000 
 constant TICK_LIMIT 	: integer 	:= 47000;
-
 
 
 begin
@@ -72,6 +75,14 @@ end process triag_cntr;
 
 pwm_process: process(i_clk)
 begin
+	if i_clk'EVENT and i_clk = '1' then 
+		pwm_counter <= pwm_counter + 1 ;
+		if pwm_counter <= triag_step then
+			led <= '1';
+		else 
+			led <= '0';
+		end if;
+	end if;
 end process pwm_process;
 
 end architecture behav;

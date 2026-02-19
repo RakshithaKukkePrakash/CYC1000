@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Fri Feb 20 00:08:34 2026
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : led_breathe
+Top-level Entity Name : led_breathe
+Family : Cyclone 10 LP
+Total logic elements : 110
+    Total combinational functions : 110
+    Dedicated logic registers : 75
+Total registers : 75
+Total pins : 2
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0
