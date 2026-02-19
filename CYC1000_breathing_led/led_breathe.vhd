@@ -22,9 +22,10 @@ end entity led_breathe;
 architecture behav of led_breathe is 
 
 signal tick_en			: std_logic	:='0';
+signal direction_flag: std_logic :='0'; -- 0 for triag up ramp and 1 for triag down ramp
 signal triag_counter	: integer 	:= 0;
 signal tick_count 	: integer 	:= 0;  
- 
+signal triag_step		: integer	:= 0; 
 -- to be visible to the naked eye, considering the triangle wave from 0 to 255 and back to 0 is 2s
 -- 2s/512 = 3,9ms. The clk used is 12MHz ie 83,33ns per cycle
 -- So tick limit should be 3,9ms/83,33ns = 46,801.87 and rounded to 47000 
@@ -42,13 +43,30 @@ begin
 			tick_count	<= 0;
 		else
 			tick_en	  	<= '0';
-			tick_count <= tick_count + 1;
+			tick_count 	<= tick_count + 1;
 		end if;
 	end if;
 end process tick_process;
 
 triag_cntr: process(i_clk)
 begin 
+	if i_clk'EVENT and i_clk = '1' then 
+		if tick_en = '1' then 
+			if direction_flag = '0' then
+				if triag_step = 255 then
+				  direction_flag <= '1';
+				else
+				  triag_step <= triag_step + 1;
+				end if;	
+			else
+				if triag_step = 0 then
+				  direction_flag <= '0';
+				else
+				  triag_step <= triag_step - 1;
+				end if;
+			end if;
+		end if;
+	end if;
 end process triag_cntr;
 
 
